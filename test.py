@@ -20,19 +20,31 @@ class taskTray:
                     MenuItem('Exit', self.stopProgram),
                 )
 
-        self.icon = Icon(name='nameTray', title='titleTray', icon=image, menu=menu)
+        self.icon = Icon(name='nameTray', title='eroge_Destroyer', icon=image, menu=menu)
 
-
+    ##時間が来たら実行される処理
     def doTask(self):
         print('実行しました。')
 
-        # if gw.getWindowsWithTitle("Steam"):
-        #     logger.debug("既に開いています")
-        #     return
+        if gw.getWindowsWithTitle("Steam"):
+            print('Steamだね。殺します。')
 
-        app = Application(backend="uia").start("C:\Program Files (x86)\Steam\steam.exe")
+            # 終了させたい.exeファイルの名前を指定
+            executable_name = "steam.exe"
 
-        ##exitProcess = terminate(['C:\Program Files (x86)\Steam\steam.exe'])
+            subprocess.run(["taskkill", "/IM", executable_name, "/F"], check=True)
+
+            return
+
+        else:
+            print('Steamは実行されていません。')
+
+        #1トライ目
+        # app = Application(backend="uia").start("C:\Program Files (x86)\Steam\steam.exe")
+
+        #2トライ目
+        # app = subprocess.Popen("C:\Program Files (x86)\Steam\steam.exe")
+        # app.kill()
 
     def runSchedule(self):
         ## 毎週授業開始時にタスクを実行する。
@@ -42,7 +54,7 @@ class taskTray:
         schedule.every().friday.at("13:30").do(self.doTask)
 
         ##テスト用
-        schedule.every().thursday.at("14:19").do(self.doTask)
+        schedule.every().thursday.at("17:09").do(self.doTask)
 
         ## status が True である間実行する。
         while self.status:
