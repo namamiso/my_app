@@ -48,5 +48,5 @@ class taskTray:
 
 
 if __name__ == '__main__':
-    system_tray = taskTray(image="sample.jpeg")
+    system_tray = taskTray(image="image.jpg")
     system_tray.runProgram()
