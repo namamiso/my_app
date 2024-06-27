@@ -4,6 +4,9 @@ import time
 import threading
 import schedule
 import datetime
+import subprocess
+from pywinauto import Application
+import pygetwindow as gw
 
 class taskTray:
     def __init__(self, image):
@@ -23,6 +26,14 @@ class taskTray:
     def doTask(self):
         print('実行しました。')
 
+        # if gw.getWindowsWithTitle("Steam"):
+        #     logger.debug("既に開いています")
+        #     return
+
+        app = Application(backend="uia").start("C:\Program Files (x86)\Steam\steam.exe")
+
+        ##exitProcess = terminate(['C:\Program Files (x86)\Steam\steam.exe'])
+
     def runSchedule(self):
         ## 毎週授業開始時にタスクを実行する。
         schedule.every().monday.at("11:00").do(self.doTask)
@@ -31,7 +42,7 @@ class taskTray:
         schedule.every().friday.at("13:30").do(self.doTask)
 
         ##テスト用
-        schedule.every().thursday.at("13:45").do(self.doTask)
+        schedule.every().thursday.at("14:19").do(self.doTask)
 
         ## status が True である間実行する。
         while self.status:
