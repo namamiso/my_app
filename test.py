@@ -3,6 +3,7 @@ from PIL import Image
 import time
 import threading
 import schedule
+import datetime
 
 class taskTray:
     def __init__(self, image):
@@ -23,8 +24,15 @@ class taskTray:
         print('実行しました。')
 
     def runSchedule(self):
-        ## 5秒毎にタスクを実行する。
-        schedule.every(5).seconds.do(self.doTask)
+        ## 毎週授業開始時にタスクを実行する。
+        schedule.every().monday.at("11:00").do(self.doTask)
+        schedule.every().tuesday.at("09:15").do(self.doTask)
+        schedule.every().thursday.at("09:15").do(self.doTask)
+        schedule.every().friday.at("13:30").do(self.doTask)
+
+        ##テスト用
+        schedule.every().thursday.at("13:45").do(self.doTask)
+
         ## status が True である間実行する。
         while self.status:
             schedule.run_pending()
