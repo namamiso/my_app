@@ -24,27 +24,15 @@ class taskTray:
 
     ##時間が来たら実行される処理
     def doTask(self):
-        print('実行しました。')
-
+        # 終了したいアプリが起動していた場合
         if gw.getWindowsWithTitle("Steam"):
-            print('Steamだね。殺します。')
-
             # 終了させたい.exeファイルの名前を指定
             executable_name = "steam.exe"
 
+            # 終了させる
             subprocess.run(["taskkill", "/IM", executable_name, "/F"], check=True)
 
             return
-
-        else:
-            print('Steamは実行されていません。')
-
-        #1トライ目
-        # app = Application(backend="uia").start("C:\Program Files (x86)\Steam\steam.exe")
-
-        #2トライ目
-        # app = subprocess.Popen("C:\Program Files (x86)\Steam\steam.exe")
-        # app.kill()
 
     def runSchedule(self):
         ## 毎週授業開始時にタスクを実行する。
@@ -52,9 +40,6 @@ class taskTray:
         schedule.every().tuesday.at("09:15").do(self.doTask)
         schedule.every().thursday.at("09:15").do(self.doTask)
         schedule.every().friday.at("13:30").do(self.doTask)
-
-        ##テスト用
-        schedule.every().thursday.at("17:09").do(self.doTask)
 
         ## status が True である間実行する。
         while self.status:
